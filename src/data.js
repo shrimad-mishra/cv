@@ -10,7 +10,7 @@ export const profile = {
   linkedin: 'https://www.linkedin.com/in/shrimad-mishra',
   github: 'https://github.com/shrimad-mishra',
   resume: '/Shrimad_Mishra_Resume.pdf',
-  photo: '/profile.jpg',
+  photo: '/profile.webp',
   education: 'B.E. Computer Science and Engineering, Dr. Ambedkar Institute of Technology',
 }
 

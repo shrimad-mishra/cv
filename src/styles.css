@@ -3,9 +3,9 @@
 @theme {
   --font-sans: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
-  --color-ink: #0b1020;
-  --color-panel: #121a2f;
-  --color-line: #1f2a44;
+  --color-ink: #000000;
+  --color-panel: #0a0a0c;
+  --color-line: #1c1c22;
   --color-accent: #5eead4;
   --color-accent2: #818cf8;
 }
@@ -24,3 +24,6 @@ body { @apply bg-ink text-slate-200 font-sans antialiased; }
 
 @keyframes float { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(-8px) } }
 .animate-float { animation: float 6s ease-in-out infinite; }
+
+/* Hide the native cursor only when the custom cursor is active (fine pointer). */
+.custom-cursor, .custom-cursor * { cursor: none !important; }

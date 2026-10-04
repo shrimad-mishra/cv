@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import Starfield from './Starfield.jsx'
+import { Reveal, CountUp, Typewriter, Cursor } from './effects.jsx'
 import { profile, stats, experience, projects, publications, certificates, skills } from './data.js'
 
 const ext = { target: '_blank', rel: 'noopener noreferrer' }
@@ -11,7 +13,7 @@ function track(e) {
 }
 
 const card =
-  'spotlight rounded-2xl border border-line bg-panel/80 p-6 transition duration-300 ' +
+  'spotlight rounded-2xl border border-line bg-panel/70 p-6 backdrop-blur-sm transition duration-300 ' +
   'hover:-translate-y-1 hover:border-accent/50 hover:shadow-[0_12px_40px_-12px_rgba(94,234,212,0.35)]'
 
 function Card({ className = '', children }) {
@@ -22,9 +24,11 @@ function Section({ id, title, sub, children }) {
   return (
     <section id={id} className="scroll-mt-16 border-t border-line py-20">
       <div className="mx-auto max-w-5xl px-5">
-        <h2 className="text-3xl font-bold text-white">{title}</h2>
-        {sub && <p className="mb-10 mt-2 text-slate-400">{sub}</p>}
-        {children}
+        <Reveal>
+          <h2 className="text-3xl font-bold text-white">{title}</h2>
+          {sub && <p className="mb-10 mt-2 text-slate-400">{sub}</p>}
+        </Reveal>
+        <Reveal delay={120}>{children}</Reveal>
       </div>
     </section>
   )
@@ -74,15 +78,18 @@ function Hero() {
     <header
       id="top"
       onMouseMove={track}
-      className="spotlight relative overflow-hidden py-24 [background:radial-gradient(800px_380px_at_80%_0%,rgba(94,234,212,.12),transparent),radial-gradient(700px_360px_at_0%_20%,rgba(129,140,248,.12),transparent)]"
+      className="spotlight relative overflow-hidden py-24"
     >
       <div className="mx-auto grid max-w-5xl items-center gap-12 px-5 md:grid-cols-[1fr_230px]">
         <div>
           <p className="font-mono text-sm text-accent">{profile.role} · {profile.location}</p>
           <h1 className="mt-3 text-4xl font-extrabold leading-tight text-white md:text-6xl">
-            I build production AI{' '}
-            <span className="bg-gradient-to-r from-accent to-accent2 bg-clip-text text-transparent">voicebots</span>{' '}
-            and multi-agent systems.
+            I build production
+            <br />
+            <Typewriter
+              words={['AI voicebots.', 'multi-agent systems.', 'Generative AI.', 'real-time platforms.']}
+              className="bg-gradient-to-r from-accent to-accent2 bg-clip-text text-transparent"
+            />
           </h1>
           <p className="mt-5 max-w-2xl text-lg text-slate-400">{profile.summary}</p>
           <div className="mt-6 flex flex-wrap gap-2">
@@ -119,13 +126,16 @@ function Stats() {
   return (
     <section className="border-t border-line py-14">
       <div className="mx-auto grid max-w-5xl grid-cols-2 gap-4 px-5 md:grid-cols-4">
-        {stats.map((s) => (
-          <Card key={s.value + s.label} className="group">
-            <b className="block origin-left bg-gradient-to-r from-accent to-accent2 bg-clip-text text-3xl text-transparent transition duration-300 group-hover:scale-110">
-              {s.value}
-            </b>
+        {stats.map((s, i) => (
+          <Reveal key={s.value + s.label} delay={i * 100}>
+          <Card className="group h-full">
+            <CountUp
+              value={s.value}
+              className="block origin-left bg-gradient-to-r from-accent to-accent2 bg-clip-text text-3xl text-transparent transition duration-300 group-hover:scale-110"
+            />
             <span className="text-sm text-slate-400">{s.label}</span>
           </Card>
+          </Reveal>
         ))}
       </div>
     </section>
@@ -249,6 +259,9 @@ function Contact() {
 export default function App() {
   return (
     <>
+      <Starfield />
+      <Cursor />
+      <div className="relative z-10">
       <Nav />
       <Hero />
       <Stats />
@@ -260,6 +273,7 @@ export default function App() {
       <footer className="border-t border-line px-5 py-8 text-center text-xs text-slate-500">
         © {new Date().getFullYear()} {profile.name} · {profile.education}
       </footer>
+      </div>
     </>
   )
 }
